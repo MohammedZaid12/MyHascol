@@ -10,4 +10,5 @@ Cfunctions cFunc = new Cfunctions();
 CommonKeys cKeys = new CommonKeys();
 AppUrls appUrls = new AppUrls();
 Login hascolLogin = new Login();
+Signup hascolSignup = new Signup();
 SignUpAuth authenticationSignup = new SignUpAuth();

@@ -16,9 +16,9 @@ String getString(dynamic string) {
 
 class SignUpAuth {
   final int userId;
-  final String name;
+  final String email;
   final String username;
-  final String location;
+  final String password;
   final String locationArea;
   final String phoneNumber;
   final int roleId;
@@ -28,9 +28,9 @@ class SignUpAuth {
 
   SignUpAuth(
       {this.userId,
-      this.name,
+      this.email,
       this.username,
-      this.location,
+      this.password,
       this.locationArea,
       this.phoneNumber,
       this.roleId,
@@ -41,10 +41,10 @@ class SignUpAuth {
   factory SignUpAuth.fromjson(Map<String, dynamic> json) {
     var temp = SignUpAuth(
       userId: getInt(json["user_id"]),
-      name: getString(json["name"]),
+      email: getString(json["name"]),
       username: getString(json["username"]),
-      location: getString(json["location"]),
-      locationArea: getString(json["location_area"]),
+      password: getString(json["password"]),
+      locationArea: getString(json["password_area"]),
       phoneNumber: getString(json["phone_number"]),
       roleId: getInt(json["role_id"]),
       nic: getString(json["nic"]),

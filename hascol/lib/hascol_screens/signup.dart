@@ -9,6 +9,7 @@ import 'CommonThings/All_Instances.dart';
 
 
 class Signup extends StatelessWidget {
+  Signup({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -257,6 +258,7 @@ class FormState extends State<SignupForm> {
           },
         ),
 
+
         Padding(
           padding: EdgeInsets.all(10.0),
           child: cFunc.buttons("Create Account", () async{
@@ -270,6 +272,12 @@ print("aa");
             phoneNumber= phoneNumberController.hashCode;
             cnicNumber=cnicController.hashCode;
             name = nameController.text;
+
+//
+//SignUpAuth newPost = new SignUpAuth(
+////    userId:0,  email: emailController.text, pass: bodyControler.text);
+////Post p = await createPost(CREATE_POST_URL,
+//    body: newPost.toMap());
 
 
 
