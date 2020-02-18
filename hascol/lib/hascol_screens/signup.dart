@@ -9,7 +9,11 @@ import 'CommonThings/All_Instances.dart';
 
 
 class Signup extends StatelessWidget {
-  Signup({Key key}) : super(key: key);
+
+
+
+  final Future<SignUpAuth> authSignUp;
+  Signup({Key key , this.authSignUp}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,22 +31,25 @@ class SignupForm extends StatefulWidget {
 }
 
 class FormState extends State<SignupForm> {
+
+
+
+
   final emailController = new TextEditingController();
   final passwordController = new TextEditingController();
   final nameController = new TextEditingController();
   final phoneNumberController = new TextEditingController();
   final jdeController = new TextEditingController();
   final cnicController = new TextEditingController();
-  String currenRegion;
-  String currenRole;
+ 
 
 
   String email;
   String name;
-  int jdeCode;
+  var jdeCode;
   String password;
-  int cnicNumber;
-  int phoneNumber;
+  var cnicNumber;
+  var phoneNumber;
   String regions;
   String rolesController;
 
@@ -79,23 +86,25 @@ class FormState extends State<SignupForm> {
 
 
   List data = [];
-  List<DropdownMenuItem> itemsOfDD = [];
+  List<DropdownMenuItem> rolesDDItems = [];
 
   List regionsData = [];
-  List<DropdownMenuItem> itemsOfDD1 = [];
+  List<DropdownMenuItem> regionDDItems = [];
+  String currenRegion;
+  String currenRole;
 
   Future<String> fetchRoles() async {
-    if (itemsOfDD.length == 0) {
+    if (rolesDDItems.length == 0) {
       var res = await http.get(Uri.decodeFull(appUrls.getRolesUrl));
       var resBody = json.decode(res.body);
       data = resBody["data"];
       print(resBody["success"]);
-      itemsOfDD = [];
+      rolesDDItems = [];
       print(data);
       data.forEach((d) {
         print(d);
         setState(() {
-          itemsOfDD.add(DropdownMenuItem(
+          rolesDDItems.add(DropdownMenuItem(
             child: new Text(d['role']),
             value: d['role_id'].toString(),
           ));
@@ -106,16 +115,16 @@ class FormState extends State<SignupForm> {
   }
 
   Future<String> fetchRegions() async {
-    if (itemsOfDD1.length == 0) {
+    if (regionDDItems.length == 0) {
       var regionsRes = await http.get(Uri.decodeFull(appUrls.getRegionsUrl));
       var RresBody = json.decode(regionsRes.body);
       regionsData = RresBody["data"];
-      itemsOfDD1 = [];
+      regionDDItems = [];
       print(regionsData);
       regionsData.forEach((d1) {
         print(d1);
         setState(() {
-          itemsOfDD1.add(DropdownMenuItem(
+          regionDDItems.add(DropdownMenuItem(
             child: new Text(d1['region_name']),
             value: d1['id'].toString(),
           ));
@@ -125,23 +134,19 @@ class FormState extends State<SignupForm> {
   }
 
 
-  Future doSignUp(map, success) async {
-    final response = await http.post(appUrls.registerUrl, body: map);
-    if (response.statusCode < 200 ||
-        response.statusCode > 400 ||
-        json == null) {
-      throw new Exception("Error while posting data");
-    } else {
-      var _response = json.decode(response.body);
-      if (_response["error"] == false) {
-        var obj = SignUpAuth.fromjson(_response["data"]);
-        success(obj);
-        print(obj);
-        return obj;
-      } else {
-        return fieldEmptyOrNot();
+  Future doSignUp( String url  , {Map body}) async {
+
+    return http.post(url, body: body).then((http.Response response) {
+      final int statusCode = response.statusCode;
+
+      if (statusCode < 200 || statusCode > 400 || json == null) {
+        throw new Exception("Error while fetching data");
       }
-    }
+      return SignUpAuth.fromjson(json.decode(response.body));
+    });
+
+
+
   }
 
 
@@ -212,7 +217,7 @@ class FormState extends State<SignupForm> {
               return Padding(
                   padding: EdgeInsets.all(20.0),
                   child: DropdownButton(
-                    items: itemsOfDD1.toList(),
+                    items: regionDDItems.toList(),
                     onChanged: (newVal) {
                       print(newVal);
                       setState(() {
@@ -244,7 +249,7 @@ class FormState extends State<SignupForm> {
               return Padding(
                   padding: EdgeInsets.all(20.0),
                   child: DropdownButton(
-                    items: itemsOfDD.toList(),
+                    items: rolesDDItems.toList(),
                     onChanged: (newVal) {
                       print(newVal);
                       setState(() {
@@ -263,46 +268,33 @@ class FormState extends State<SignupForm> {
           padding: EdgeInsets.all(10.0),
           child: cFunc.buttons("Create Account", () async{
 
+CircularProgressIndicator();
 
-
-print("aa");
-            email=emailController.text;
-            password=emailController.text;
-            jdeCode=jdeController.hashCode;
-            phoneNumber= phoneNumberController.hashCode;
-            cnicNumber=cnicController.hashCode;
-            name = nameController.text;
-
+          print("aa");
+//            email=emailController.text;
+//            password=passwordController.text;
+//            jdeCode=jdeController.hashCode;
+//            phoneNumber= phoneNumberController.hashCode;
+//            cnicNumber=cnicController.hashCode;
+//            name = nameController.text;
 //
-//SignUpAuth newPost = new SignUpAuth(
-////    userId:0,  email: emailController.text, pass: bodyControler.text);
-////Post p = await createPost(CREATE_POST_URL,
-//    body: newPost.toMap());
+            try{
 
+              SignUpAuth newPost = new SignUpAuth(
+                 userId: 0,  email: emailController.text, password:passwordController.text ,username: nameController.text  );
 
+              SignUpAuth hascolSignupAuthentication = await doSignUp(
+                  appUrls.registerUrl,
+                  body: newPost.toMap());
+              print('jsqjflsk');
 
-            if (email != "" && password != "" && phoneNumber!="" && name != "") {
-              var map = new Map<String, dynamic>();
-              map["name"] = name.toString();
-              map["password"] = password.toString();
-              map["email"] = email.toString();
-              map["jde_code"] = jdeCode.toString();
-              map["location"] = fetchRegions().toString();
-              map["phone_number"] = phoneNumber.toString();
-              map["role_id"] = fetchRoles().toString();
-              map["nic"] = cnicNumber.toString();
-
-              CircularProgressIndicator();
-              this.doSignUp(map, (SignUpAuth signup) {
-                print("succes");
-                if (signup.roleName == "ASM") {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => hascolLogin));
-                }
-              });
+            }
+            catch(Exception ){
+              print(Exception);
             }
 
-            fieldEmptyOrNot();}),
+
+            }),
         ),
         Padding(
           padding: EdgeInsets.all(10.0),

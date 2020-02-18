@@ -20,11 +20,12 @@ class SignUpAuth {
   final String username;
   final String password;
   final String locationArea;
-  final String phoneNumber;
+  final int phoneNumber;
   final int roleId;
-  final String nic;
+  final int nic;
   final String roleName;
   final String auth;
+  final int jdeCode;
 
   SignUpAuth(
       {this.userId,
@@ -36,23 +37,41 @@ class SignUpAuth {
       this.roleId,
       this.nic,
       this.roleName,
-      this.auth});
+      this.auth ,
+        this.jdeCode});
 
   factory SignUpAuth.fromjson(Map<String, dynamic> json) {
     var temp = SignUpAuth(
       userId: getInt(json["user_id"]),
-      email: getString(json["name"]),
+      email: getString(json["email"]),
       username: getString(json["username"]),
       password: getString(json["password"]),
-      locationArea: getString(json["password_area"]),
-      phoneNumber: getString(json["phone_number"]),
+      locationArea: getString(json["location_area"]),
+      phoneNumber: getInt(json["phone_number"]),
       roleId: getInt(json["role_id"]),
-      nic: getString(json["nic"]),
+      nic: getInt(json["nic"]),
       roleName: getString(json["role_name"]),
+      jdeCode: getInt(json["jdeCode"]),
+
     );
-
-    print(temp);
-    return temp;
-
   }
+
+    Map toMap() {
+      var map = new Map<String, dynamic>();
+      map["userId"] = userId;
+      map["username"] = username;
+      map["password"] = password;
+      map["locationArea"] = locationArea;
+      map["phoneNumber"] = phoneNumber;
+      map["email"] = email;
+      map["nic"] = nic;
+      map["roleName"] = roleName;
+      map["jdeCode"] = jdeCode;
+
+
+      return map;
+    }
+
+
+
 }
