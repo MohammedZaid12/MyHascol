@@ -6,14 +6,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'CommonThings/All_Instances.dart';
 
-
-
 class Signup extends StatelessWidget {
-
-
-
   final Future<SignUpAuth> authSignUp;
-  Signup({Key key , this.authSignUp}) : super(key: key);
+
+  Signup({Key key, this.authSignUp}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,18 +28,12 @@ class SignupForm extends StatefulWidget {
 }
 
 class FormState extends State<SignupForm> {
-
-
-
-
   final emailController = new TextEditingController();
   final passwordController = new TextEditingController();
   final nameController = new TextEditingController();
   final phoneNumberController = new TextEditingController();
   final jdeController = new TextEditingController();
   final cnicController = new TextEditingController();
- 
-
 
   String email;
   String name;
@@ -53,17 +44,16 @@ class FormState extends State<SignupForm> {
   String regions;
   String rolesController;
 
-
-  fieldEmptyOrNot() {
-
-    String email, password , phoneNumber , name;
+  bool fieldEmptyOrNot() {
+    String email, password, phoneNumber, name , role;
 
     email = emailController.text;
     password = passwordController.text;
     phoneNumber = phoneNumberController.text;
     name = nameController.text;
+    role = currenRole;
 
-    if (email == '' || password == '' || phoneNumber == '' || name=='') {
+    if (email == '' || password == '' || phoneNumber == '' || name == '' || role == null) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -81,9 +71,11 @@ class FormState extends State<SignupForm> {
               ],
             );
           });
+     return false;
     }
-  }
 
+    return true;
+  }
 
   List data = [];
   List<DropdownMenuItem> rolesDDItems = [];
@@ -111,7 +103,6 @@ class FormState extends State<SignupForm> {
         });
       });
     }
-
   }
 
   Future<String> fetchRegions() async {
@@ -133,24 +124,23 @@ class FormState extends State<SignupForm> {
     }
   }
 
-
-  Future doSignUp( String url  , {Map body}) async {
-
+  Future doSignUp(String url, {Map body}) async {
     return http.post(url, body: body).then((http.Response response) {
       final int statusCode = response.statusCode;
+      var _response = json.decode(response.body);
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
       }
-      return SignUpAuth.fromjson(json.decode(response.body));
+      else {
+        CircularProgressIndicator();
+        isSuccessfullySignedUp();
+        return SignUpAuth.fromjson(_response);
+      }
+
+
     });
-
-
-
   }
-
-
-
 
   @override
   void initState() {
@@ -169,37 +159,42 @@ class FormState extends State<SignupForm> {
         Padding(
             padding: EdgeInsets.all(10.0),
             child: cFunc.textFields("a", (v) {
-              this.email=v;
-            }, "Email Address", "Email Address", obscuretext: false , controller:emailController )),
+              this.email = v;
+            }, "Email Address", "Email Address",
+                obscuretext: false, controller: emailController)),
         Padding(
             padding: EdgeInsets.all(10.0),
             child: cFunc.textFields("a", (v) {
-              this.password=v;
-            }, "Password", "", obscuretext: true ,  controller:passwordController)),
+              this.password = v;
+            }, "Password", "",
+                obscuretext: true, controller: passwordController)),
 
         Padding(
           padding: EdgeInsets.all(10.0),
           child: cFunc.textFields("a", (v) {
-            this.name=v;
-          }, "Name", "Enter Your Name", obscuretext: false ,  controller:nameController),
+            this.name = v;
+          }, "Name", "Enter Your Name",
+              obscuretext: false, controller: nameController),
         ),
         Padding(
             padding: EdgeInsets.all(10.0),
             child: cFunc.textFields("a", (v) {
-              this.jdeCode=v;
-            }, "JDE Code", "", obscuretext: false)),
+              this.jdeCode = v;
+            }, "JDE Code", "", obscuretext: false , controller: jdeController)),
         Padding(
             padding: EdgeInsets.all(10.0),
             child: cFunc.textFields("a", (v) {
-              this.phoneNumber=v;
+              this.phoneNumber = v;
             }, "PhoneNumber", "",
-                tType: TextInputType.number, obscuretext: false ,  controller:phoneNumberController)),
+                tType: TextInputType.number,
+                obscuretext: false,
+                controller: phoneNumberController)),
         Padding(
             padding: EdgeInsets.all(10.0),
             child: cFunc.textFields("a", (v) {
-              this.cnicNumber=v;
+              this.cnicNumber = v;
             }, "CNIC Number", "",
-                tType: TextInputType.number, obscuretext: false)),
+                tType: TextInputType.number, obscuretext: false , controller: cnicController)),
         Padding(
           padding: EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
           child: Text(
@@ -213,6 +208,8 @@ class FormState extends State<SignupForm> {
             if (snapshot.connectionState == ConnectionState.none &&
                 snapshot.hasData != '') {
               return Container(child: Text("Loading...."));
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
             } else {
               return Padding(
                   padding: EdgeInsets.all(20.0),
@@ -231,7 +228,7 @@ class FormState extends State<SignupForm> {
           },
         ),
 
-//        ),
+
         Padding(
           padding: EdgeInsets.only(right: 20.0, left: 20.0, top: 20.0),
           child: Text(
@@ -245,6 +242,8 @@ class FormState extends State<SignupForm> {
             if (snapshot.connectionState == ConnectionState.none &&
                 snapshot.hasData == '') {
               return Container();
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator();
             } else {
               return Padding(
                   padding: EdgeInsets.all(20.0),
@@ -263,38 +262,38 @@ class FormState extends State<SignupForm> {
           },
         ),
 
-
         Padding(
           padding: EdgeInsets.all(10.0),
-          child: cFunc.buttons("Create Account", () async{
+          child: cFunc.buttons("Create Account", () async {
 
-CircularProgressIndicator();
+            if( fieldEmptyOrNot() ){
+              print(jdeController.text);
+              print(cnicController.text);
 
-          print("aa");
-//            email=emailController.text;
-//            password=passwordController.text;
-//            jdeCode=jdeController.hashCode;
-//            phoneNumber= phoneNumberController.hashCode;
-//            cnicNumber=cnicController.hashCode;
-//            name = nameController.text;
-//
-            try{
+              try {
+                SignUpAuth newPost = new SignUpAuth(
+                  userId: "123",
+                  Id: 0,
+                  email: emailController.text,
+                  password: passwordController.text,
+                  username: nameController.text,
+                  jdeCode: jdeController.text,
+                  phoneNumber: phoneNumberController.text,
+                  cnic: cnicController.text,
+                  regionsId: getString(currenRegion),
+                  roleId: getString(currenRole),
+                );
 
-              SignUpAuth newPost = new SignUpAuth(
-                 userId: 0,  email: emailController.text, password:passwordController.text ,username: nameController.text  );
-
-              SignUpAuth hascolSignupAuthentication = await doSignUp(
-                  appUrls.registerUrl,
-                  body: newPost.toMap());
-              print('jsqjflsk');
-
+                SignUpAuth hascolSignupAuthentication =
+                await doSignUp(appUrls.registerUrl, body: newPost.toMap());
+                isSuccessfullySignedUp();
+              } catch (Exception) {
+                print(Exception);
+              }
             }
-            catch(Exception ){
-              print(Exception);
-            }
 
 
-            }),
+          }),
         ),
         Padding(
           padding: EdgeInsets.all(10.0),
@@ -306,5 +305,32 @@ CircularProgressIndicator();
         )
       ],
     );
+  }
+
+  isSuccessfullySignedUp() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          CircularProgressIndicator();
+          return AlertDialog(
+            title: Text("Congrats"),
+            content: Text("You have successfully Signed Up"),
+            actions: [
+              FlatButton(
+                child: Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              FlatButton(
+                child: Text("Login"),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+              )
+            ],
+          );
+        });
   }
 }

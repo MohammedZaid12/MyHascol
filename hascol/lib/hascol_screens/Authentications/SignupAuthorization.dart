@@ -15,17 +15,18 @@ String getString(dynamic string) {
 }
 
 class SignUpAuth {
-  final int userId;
+  final String userId;
+  final int Id;
   final String email;
   final String username;
   final String password;
   final String locationArea;
-  final int phoneNumber;
-  final int roleId;
-  final int nic;
+  final String phoneNumber;
+  final String roleId;
+  final String cnic;
   final String roleName;
-  final String auth;
-  final int jdeCode;
+  final String regionsId;
+  final String jdeCode;
 
   SignUpAuth(
       {this.userId,
@@ -35,43 +36,42 @@ class SignUpAuth {
       this.locationArea,
       this.phoneNumber,
       this.roleId,
-      this.nic,
+      this.cnic,
       this.roleName,
-      this.auth ,
-        this.jdeCode});
+      this.regionsId,
+      this.Id,
+      this.jdeCode});
 
   factory SignUpAuth.fromjson(Map<String, dynamic> json) {
-    var temp = SignUpAuth(
-      userId: getInt(json["user_id"]),
+    return SignUpAuth(
+      userId: getString(json["user_id"]),
       email: getString(json["email"]),
       username: getString(json["username"]),
       password: getString(json["password"]),
       locationArea: getString(json["location_area"]),
-      phoneNumber: getInt(json["phone_number"]),
-      roleId: getInt(json["role_id"]),
-      nic: getInt(json["nic"]),
+      phoneNumber: getString(json["phone_number"]),
+      roleId: getString(json["role_id"]),
+      cnic: getString(json["nic"]),
       roleName: getString(json["role_name"]),
-      jdeCode: getInt(json["jdeCode"]),
+      jdeCode: getString(json["jde_code"]),
+      regionsId: getString(json["location"]),
 
     );
   }
 
-    Map toMap() {
-      var map = new Map<String, dynamic>();
-      map["userId"] = userId;
-      map["username"] = username;
-      map["password"] = password;
-      map["locationArea"] = locationArea;
-      map["phoneNumber"] = phoneNumber;
-      map["email"] = email;
-      map["nic"] = nic;
-      map["roleName"] = roleName;
-      map["jdeCode"] = jdeCode;
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map['userId'] = userId;
+    map["username"] = username;
+    map["password"] = password;
+    map["email"] = email;
+    map["phone_number"] = phoneNumber;
+    map["jde_code"] = jdeCode;
+    map["nic"] = cnic;
+    map["role_id"] = roleId;
+    map["location"] = regionsId;
 
 
-      return map;
-    }
-
-
-
+    return map;
+  }
 }
