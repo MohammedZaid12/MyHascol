@@ -284,7 +284,7 @@ class FormState extends State<SignupForm> {
                   roleId: getString(currenRole),
                 );
 
-                SignUpAuth hascolSignupAuthentication =
+                SignUpAuth _hascolSignupAuthentication =
                 await doSignUp(appUrls.registerUrl, body: newPost.toMap());
                 isSuccessfullySignedUp();
               } catch (Exception) {

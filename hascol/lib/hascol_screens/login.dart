@@ -30,6 +30,7 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
+ static const Duration kRadialReactionDuration = Duration(milliseconds: 100);
   bool visible = true;
   final usernameController = new TextEditingController();
   final passwordController = new TextEditingController();
@@ -53,7 +54,7 @@ class _FormState extends State<Form> {
                     visible: visible,
                     child: Container(
                         margin: EdgeInsets.only(bottom: 30),
-                        child: CircularProgressIndicator()
+//                        child: CircularProgressIndicator()
                     )
                 ),
 
@@ -94,10 +95,15 @@ class _FormState extends State<Form> {
       if (_response["error"] == false) {
         var obj = LoginAuthorization.fromjson(_response["data"]);
         success(obj);
+        if(success==false){
+          return wrongPasswordOrUsername();
+        }
+        print(_response["success"]);
         print(obj);
         return obj;
       } else {
-        return fieldEmptyOrNot();
+          return fieldEmptyOrNot();
+
       }
     }
   }
@@ -150,11 +156,17 @@ class _FormState extends State<Form> {
 
 
               if (username != "" && password != "") {
+
                 var map = new Map<String, dynamic>();
                 map["username"] = username.toString();
                 map["password"] = password.toString();
+                if(map["username"]!=username || map["password"]!=password ){
 
-                CircularProgressIndicator();
+                  return wrongPasswordOrUsername();
+
+                }
+
+
                 this.doLoginN(map, (LoginAuthorization log) {
                   print("succes");
                   print(log.roleName);
@@ -196,20 +208,22 @@ class _FormState extends State<Form> {
                 visible: visible,
                 child: Container(
                     margin: EdgeInsets.only(bottom: 30),
-                    child: CircularProgressIndicator()
+//                    child: CircularProgressIndicator()
                 )
             ),
 
             AlertDialog(
-              title: Text("Field Is Empty"),
-              content: Text("Username or password is empty"),
+              content: Text("Please enter user and password correctly"),
+              title: Text("Username or password is wrong"),
+
+
 
               actions: [
 
                 FlatButton(
                   child: Text("Close"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(Duration);
                   },
                 )
               ],

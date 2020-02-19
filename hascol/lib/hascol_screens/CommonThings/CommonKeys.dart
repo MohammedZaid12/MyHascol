@@ -1,24 +1,14 @@
-class CommonKeys {
-  final int userId;
-  final String name;
-  final String username;
-  final String location;
-  final String locationArea;
-  final int phoneNumber;
-  final int roleId;
-  final int nic;
-  final String roleName;
-  final String auth;
+class MainKeys {
+  final  userId="userId";
+  final  username ="username";
+  final  location ="location";
 
-  CommonKeys(
-      {this.userId,
-        this.name,
-        this.username,
-        this.location,
-        this.locationArea,
-        this.phoneNumber,
-        this.roleId,
-        this.nic,
-        this.roleName,
-        this.auth});
+  final  phoneNumber = "phone_number";
+  final  roleId = "role_id";
+  final  nic = "nic";
+  final  auth = "authToken";
+  final  jde_code = "jde_code";
+
+
+
 }

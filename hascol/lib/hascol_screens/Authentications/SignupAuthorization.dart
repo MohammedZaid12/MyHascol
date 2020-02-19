@@ -1,4 +1,5 @@
 
+
 int getInt(dynamic number) {
   if (number != null) {
     return ((number is String)) ? (int.tryParse(number) ?? 0) : number;
@@ -15,6 +16,7 @@ String getString(dynamic string) {
 }
 
 class SignUpAuth {
+
   final String userId;
   final int Id;
   final String email;

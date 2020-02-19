@@ -7,7 +7,7 @@ import 'package:hascol/hascol_screens/signup.dart';
 import 'CommonFunctions.dart';
 
 Cfunctions cFunc = new Cfunctions();
-CommonKeys cKeys = new CommonKeys();
+MainKeys cKeys = new MainKeys();
 AppUrls appUrls = new AppUrls();
 Login hascolLogin = new Login();
 Signup hascolSignup = new Signup();
