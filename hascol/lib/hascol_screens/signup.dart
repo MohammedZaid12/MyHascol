@@ -296,7 +296,10 @@ class FormState extends State<SignupForm> {
           }),
         ),
         Padding(
-          padding: EdgeInsets.all(10.0),
+          padding:
+
+
+          EdgeInsets.all(10.0),
           child: cFunc.buttons("Back To login", () {
             CircularProgressIndicator();
             Navigator.push(
@@ -308,7 +311,9 @@ class FormState extends State<SignupForm> {
   }
 
   isSuccessfullySignedUp() {
-    showDialog(
+    CircularProgressIndicator();
+    return
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           CircularProgressIndicator();
