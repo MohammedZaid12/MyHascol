@@ -173,7 +173,7 @@ class FormState extends State<SignupForm> {
           padding: EdgeInsets.all(10.0),
           child: cFunc.textFields("a", (v) {
             this.name = v;
-          }, "Name", "Enter Your Name",
+          }, "Username  ", "Enter Your Name",
               obscuretext: false, controller: nameController),
         ),
         Padding(

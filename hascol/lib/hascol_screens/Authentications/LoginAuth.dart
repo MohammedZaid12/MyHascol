@@ -16,8 +16,8 @@ String getString(dynamic string) {
 
 class LoginAuthorization {
   final int userId;
-  final String name;
   final String username;
+  final String email;
   final String location;
   final String locationArea;
   final int phoneNumber;
@@ -28,8 +28,8 @@ class LoginAuthorization {
 
   LoginAuthorization(
       {this.userId,
-      this.name,
       this.username,
+      this.email,
       this.location,
       this.locationArea,
       this.phoneNumber,
@@ -41,8 +41,8 @@ class LoginAuthorization {
   factory LoginAuthorization.fromjson(Map<String, dynamic> json) {
     var temp = LoginAuthorization(
       userId: getInt(json["user_id"]),
-      name: getString(json["name"]),
       username: getString(json["username"]),
+      email: getString(json["email"]),
       location:  getString(json["location"]),
       locationArea: getString(json["location_area"]),
       phoneNumber: getInt(json["phone_number"]),

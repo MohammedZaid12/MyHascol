@@ -75,7 +75,9 @@ class _FormState extends State<Form> {
             );
 
           });
+      return false ;
     }
+    return true;
   }
 
   Future doLoginN(map, success) async {
@@ -120,8 +122,8 @@ class _FormState extends State<Form> {
                       }
                     });
                   },
-                  "EmailAddress/PhoneNumber",
-                  "EmailAddress/PhoneNumber",
+                  "UserName",
+                  "UserName",
                   controller: usernameController,
                   submit: (v) {
                     print(v);
@@ -155,6 +157,7 @@ class _FormState extends State<Form> {
                 CircularProgressIndicator();
                 this.doLoginN(map, (LoginAuthorization log) {
                   print("succes");
+                  print(log.roleName);
                   if (log.roleName == "ASM") {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => RSM()));
@@ -180,7 +183,42 @@ class _FormState extends State<Form> {
       ),
     );
   }
-}
+
+  wrongPasswordOrUsername(){
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context)
+    {
+      return ListView(
+          children: <Widget>[
+            Visibility(
+                visible: visible,
+                child: Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    child: CircularProgressIndicator()
+                )
+            ),
+
+            AlertDialog(
+              title: Text("Field Is Empty"),
+              content: Text("Username or password is empty"),
+
+              actions: [
+
+                FlatButton(
+                  child: Text("Close"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            )
+          ]
+      );
+    }
+    );
+  }
 
 //final PageRouteBuilder _vHomeRoute = new PageRouteBuilder(
 //  fullscreenDialog: true
@@ -188,3 +226,7 @@ class _FormState extends State<Form> {
 ////
 ////},
 //);
+
+
+
+}
