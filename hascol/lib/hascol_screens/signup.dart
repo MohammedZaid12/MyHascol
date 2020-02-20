@@ -44,38 +44,38 @@ class FormState extends State<SignupForm> {
   String regions;
   String rolesController;
 
-  bool fieldEmptyOrNot() {
-    String email, password, phoneNumber, name , role;
-
-    email = emailController.text;
-    password = passwordController.text;
-    phoneNumber = phoneNumberController.text;
-    name = nameController.text;
-    role = currenRole;
-
-    if (email == '' || password == '' || phoneNumber == '' || name == '' || role == null) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            CircularProgressIndicator();
-            return AlertDialog(
-              title: Text("Field Is Empty"),
-              content: Text("Please Enter Following fields"),
-              actions: [
-                FlatButton(
-                  child: Text("Close"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          });
-     return false;
-    }
-
-    return true;
-  }
+//  bool fieldEmptyOrNot() {
+//    String email, password, phoneNumber, name , role;
+//
+//    email = emailController.text;
+//    password = passwordController.text;
+//    phoneNumber = phoneNumberController.text;
+//    name = nameController.text;
+//    role = currenRole;
+//
+//    if (email == '' || password == '' || phoneNumber == '' || name == '' || role == null) {
+//      showDialog(
+//          context: context,
+//          builder: (BuildContext context) {
+//            CircularProgressIndicator();
+//            return AlertDialog(
+//              title: Text("Field Is Empty"),
+//              content: Text("Please Enter Following fields"),
+//              actions: [
+//                FlatButton(
+//                  child: Text("Close"),
+//                  onPressed: () {
+//                    Navigator.of(context).pop();
+//                  },
+//                )
+//              ],
+//            );
+//          });
+//     return false;
+//    }
+//
+//    return true;
+//  }
 
   List data = [];
   List<DropdownMenuItem> rolesDDItems = [];
@@ -131,6 +131,9 @@ class FormState extends State<SignupForm> {
 
       if (statusCode < 200 || statusCode > 400 || json == null) {
         throw new Exception("Error while fetching data");
+      }
+      else if (_response["error"] == true){
+        return cFunc.dialogBox("Error is" , _response["message"] , context);
       }
       else {
         CircularProgressIndicator();
@@ -266,7 +269,7 @@ class FormState extends State<SignupForm> {
           padding: EdgeInsets.all(10.0),
           child: cFunc.buttons("Create Account", () async {
 
-            if( fieldEmptyOrNot() ){
+//            if( fieldEmptyOrNot() ){
               print(jdeController.text);
               print(cnicController.text);
 
@@ -286,11 +289,12 @@ class FormState extends State<SignupForm> {
 
                 SignUpAuth _hascolSignupAuthentication =
                 await doSignUp(appUrls.registerUrl, body: newPost.toMap());
-                isSuccessfullySignedUp();
+
               } catch (Exception) {
                 print(Exception);
               }
-            }
+
+//            }
 
 
           }),

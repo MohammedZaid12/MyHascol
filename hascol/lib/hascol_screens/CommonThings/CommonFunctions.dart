@@ -134,6 +134,37 @@ class Cfunctions {
       ),
     );
   }
+
+   dialogBox ( titleText , contextText , BuildContext context){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return ListView(
+            children: <Widget>[
+              Visibility(
+
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 30),
+//                        child: CircularProgressIndicator()
+                  )),
+              AlertDialog(
+                title: Text(titleText),
+                content: Text(contextText),
+                actions: [
+                  FlatButton(
+                    child: Text("Close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              )
+            ],
+          );
+        });
+  }
+
+
 }
 
 Widget _createHeader() {

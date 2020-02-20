@@ -1,9 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hascol/hascol_screens/RetailsScreen/OrderNow(ms%20fuel%20super).dart';
-import 'package:hascol/hascol_screens/CommonThings/All_Instances.dart';
-import 'package:hascol/hascol_screens/RetailsScreen/OrderNow(hsd%20fuel%20turbo).dart';
-
 class Retails extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -15,41 +11,46 @@ class Retails extends StatefulWidget {
 class RetailsState extends State<Retails> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: cFunc.myAppBar(context),
-      drawer: cFunc.myDrawer(context),
-      body: ListView(children: <Widget>[
-        imageAdd(140.0, 200.0, "images/fuel-Station-1-1.jpg"),
-        Container(
-          padding: EdgeInsets.only(bottom: 20.0),
-        ),
-        new ProductList("FUEL", [
-          new ProductCls("MS (Fuel Super)", "images/SuperTiger-XT-logo.jpg",
-              OrderNowMsFuel()),
-          new ProductCls("HSD(Fuel Turbo)", "images/SuperTiger-XT-logo.jpg",
-              OrderNowHsdFuel()),
-        ]),
-        Container(
-          padding: EdgeInsets.only(bottom: 20.0, top: 20.0),
-        ),
-        new ProductList("Lubricant", [
-          new ProductCls("Diesel Engine", "images/SuperTiger-XT-logo.jpg",
-              OrderNowMsFuel()),
-          new ProductCls("Passenger Car", "images/SuperTiger-XT-logo.jpg",
-              OrderNowMsFuel()),
-          new ProductCls("Motor Cycle ", "images/SuperTiger-XT-logo.jpg",
-              OrderNowMsFuel()),
-          new ProductCls(
-              "Gear Oil", "images/SuperTiger-XT-logo.jpg", OrderNowMsFuel()),
-          new ProductCls(
-              "others", "images/SuperTiger-XT-logo.jpg", OrderNowMsFuel()),
-        ]),
-        Container(
-          padding: EdgeInsets.only(bottom: 20.0),
-        ),
-      ]),
-    );
+    return Container();
+//    return Scaffold(
+//      appBar: cFunc.myAppBar(context),
+//      drawer: cFunc.myDrawer(context),
+//      body: ListView(children: <Widget>[
+//        imageAdd(140.0, 200.0, "images/fuel-Station-1-1.jpg"),
+//        Container(
+//          padding: EdgeInsets.only(bottom: 20.0),
+//        ),
+//        new ProductList("FUEL", [
+//          new ProductCls("MS (Fuel Super)", "images/SuperTiger-XT-logo.jpg",OrderNowHsdFuel()
+//           ),
+//          new ProductCls("HSD(Fuel Turbo)", "images/SuperTiger-XT-logo.jpg",
+//              OrderNowHsdFuel()),
+//        ]),
+//        Container(
+//          padding: EdgeInsets.only(bottom: 20.0, top: 20.0),
+//        ),
+//        new ProductList("Lubricant", [
+//          new ProductCls("Diesel Engine", "images/SuperTiger-XT-logo.jpg",
+//              OrderNowHsdFuel()),
+//          new ProductCls("Passenger Car", "images/SuperTiger-XT-logo.jpg",
+//              OrderNowHsdFuel()),
+//          new ProductCls("Motor Cycle ", "images/SuperTiger-XT-logo.jpg",
+//              OrderNowHsdFuel()),
+//          new ProductCls(
+//              "Gear Oil", "images/SuperTiger-XT-logo.jpg", OrderNowHsdFuel()),
+//          new ProductCls(
+//              "others", "images/SuperTiger-XT-logo.jpg", OrderNowHsdFuel()),
+//        ]),
+//        Container(
+//          padding: EdgeInsets.only(bottom: 20.0),
+//        ),
+//      ]),
+//    );
   }
+
+
+
+
 }
 
 class ProductCls {

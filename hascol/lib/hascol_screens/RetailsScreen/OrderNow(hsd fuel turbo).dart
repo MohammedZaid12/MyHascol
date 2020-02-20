@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:hascol/hascol_screens/RetailsScreen/Retails.dart';
 import 'package:hascol/hascol_screens/CommonThings/All_Instances.dart';
 
-class OrderNowHsdFuel extends StatefulWidget {
+class OrderHsdFuel extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return OrderNowHSDFuelState();
   }
 }
 
-class OrderNowHSDFuelState extends State<OrderNowHsdFuel> {
+class OrderNowHSDFuelState extends State<OrderHsdFuel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
