@@ -31,16 +31,23 @@ class Form extends StatefulWidget {
 }
 
 class _FormState extends State<Form> {
-  bool isLogin = false ;
-
   bool visible = true;
   final usernameController = new TextEditingController();
   final passwordController = new TextEditingController();
+
+
   String username;
   String password;
+  int role_id;
+  String name;
 
+  String location;
 
+  int nic;
 
+  String role_name;
+
+  String auth;
 
   Future doLoginN(map, success) async {
     final response = await http.post(appUrls.loginUrl, body: map);
@@ -63,10 +70,7 @@ class _FormState extends State<Form> {
         print(_response["error"]);
         print(_response["message"]);
 
-
-        return cFunc.dialogBox("Error " , _response["message"] , context);
-
-
+        return cFunc.dialogBox("Error ", _response["message"], context);
       }
     }
   }
@@ -111,46 +115,45 @@ class _FormState extends State<Form> {
                   obscuretext: true, controller: passwordController)),
           Padding(
             padding: EdgeInsets.all(20.0),
-            child: cFunc.buttons("Login", () async{
+            child: cFunc.buttons("Login", () async {
+              SharedPreferences loginPrefrence =
+                  await SharedPreferences.getInstance();
 
-              SharedPreferences loginPrefrence = await SharedPreferences.getInstance();
-              var hascolUsernames=loginPrefrence.setString(username, username).toString();
-              var hascolPasswords = loginPrefrence.setString(password, password).toString();
-              hascolUsernames=username;hascolPasswords=password;
-                if (hascolUsernames != "" && hascolPasswords != "") {
-                   print("amdnld");
+              if (username != "" && password != "") {
+                print("amdnld");
 
-                   hascolUsernames=username;
-                   hascolPasswords=password;
-                  loginPrefrence.setBool("isLogin", true);
-                  var map = new Map<String, dynamic>();
-                  map["username"] = hascolUsernames.toString();
-                  map["password"] = hascolPasswords.toString();
+                loginPrefrence.setBool("isLogin", true);
+                var map = new Map<String, dynamic>();
+                map["username"] = username.toString();
+                map["password"] = password.toString();
+                map["auth"] = auth.toString();
+                map["role_id"] = role_id.toString();
+                map["role_name"] = role_name.toString();
+                map["nic"] = nic.toString();
 
-                    this.doLoginN(map, (LoginAuthorization log) {
-                      print(log.roleName);
-                      if (log.roleName == "RSM") {
-                        Navigator.pushAndRemoveUntil(
-                            context, routeToRsm, (Route<dynamic> r) => false);
-                      } else if (log.roleName == "HOD") {
-                        Navigator.pushAndRemoveUntil(
-                            context, routeToHod, (Route<dynamic> r) => false);
-                      } else if (log.roleName == "Retailer") {
-                        Navigator.pushAndRemoveUntil(
-                            context, routeToRetails, (
-                            Route<dynamic> r) => false);
-                      } else if (log.roleName == "ASM") {
-                        Navigator.pushAndRemoveUntil(
-                            context, routeToAsm, (Route<dynamic> r) => false);
-                      }
-                    });
+                loginPrefrence.setString(cKeys.username, map["username"]);
+                loginPrefrence.setBool("isLogin" ,true );
+                loginPrefrence.setString(cKeys.auth, map["auth"]);
+//                loginPrefrence.setString(cKeys.username, map["username"]);
+//                loginPrefrence.setString(cKeys.username, map["username"]);
+                this.doLoginN(map, (LoginAuthorization log) {
+                  print(log.roleName);
+                  if (log.roleName == "RSM") {
+                    Navigator.pushAndRemoveUntil(
+                        context, routeToRsm, (Route<dynamic> r) => false);
+                  } else if (log.roleName == "HOD") {
+                    Navigator.pushAndRemoveUntil(
+                        context, routeToHod, (Route<dynamic> r) => false);
+                  } else if (log.roleName == "Retailer") {
+                    Navigator.pushAndRemoveUntil(
+                        context, routeToRetails, (Route<dynamic> r) => false);
+                  } else if (log.roleName == "ASM") {
+                    Navigator.pushAndRemoveUntil(
+                        context, routeToAsm, (Route<dynamic> r) => false);
                   }
-                }
-
-
-
-
-            ),
+                });
+              }
+            }),
           ),
           Padding(
             padding: EdgeInsets.all(20.0),
@@ -162,9 +165,7 @@ class _FormState extends State<Form> {
         ],
       ),
     );
-    }
-
-
+  }
 
   final PageRouteBuilder routeToRsm = new PageRouteBuilder(
     pageBuilder: (BuildContext context, Animation<double> animation,
@@ -194,6 +195,3 @@ class _FormState extends State<Form> {
     },
   );
 }
-
-
-

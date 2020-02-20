@@ -8,6 +8,7 @@ class MainKeys {
   final  nic = "nic";
   final  auth = "authToken";
   final  jde_code = "jde_code";
+  final isLogin = "isLogin";
 
 
 
