@@ -9,6 +9,7 @@ final  nic = "nic";
 final  auth = "auth";
 final  jde_code = "jde_code";
 final isLogin = "isLogin";
+final roleName = "role_name";
 
 
 

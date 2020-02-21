@@ -13,7 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hascol',
-      home: Scaffold(body: Signup()
+      home: Scaffold(
+          body: Login()
       ),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hascol/hascol_screens/CommonThings/All_Instances.dart';
 import 'package:hascol/hascol_screens/RsmScreens/MyOrders.dart';
 import 'package:hascol/hascol_screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Cfunctions {
   Widget textFields(String validation ,  onChange, label, hint,
@@ -93,15 +95,19 @@ class Cfunctions {
             color: Colors.black,
           ),
           ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => new Login()));
+              onTap: () async{
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                prefs.remove(cKeys.auth);
+                prefs.remove(cKeys.roleName);
+                print("destroyed");
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (BuildContext ctx) => Login()));
               },
               title: Row(
                 children: <Widget>[
                   Icon(Icons.account_circle),
                   Text('Logout'),
+
                 ],
               )),
         ],

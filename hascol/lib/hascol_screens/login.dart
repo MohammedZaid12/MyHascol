@@ -69,6 +69,7 @@ class _FormState extends State<Form> {
         print(obj);
         return obj;
       } else {
+        print("else m,e");
         print(_response["error"]);
         print(_response["message"]);
 
@@ -78,7 +79,7 @@ class _FormState extends State<Form> {
   }
 
 
-  @override
+
   @override
   void initState() {
     super.initState();
@@ -132,7 +133,7 @@ class _FormState extends State<Form> {
               if (username != "" && password != "") {
                 print("amdnld");
 
-                loginPrefrence.setBool("isLogin", true);
+
                 var map = new Map<String, dynamic>();
                 map["username"] = username.toString();
                 map["password"] = password.toString();
@@ -140,14 +141,17 @@ class _FormState extends State<Form> {
                 map["role_id"] = role_id.toString();
                 map["role_name"] = role_name.toString();
                 map["nic"] = nic.toString();
+                print(role_name);
+//                print(map["role_name"]);
 
                 loginPrefrence.setString(cKeys.username, map["username"]);
                 loginPrefrence.setBool("isLogin", true);
                 loginPrefrence.setString(cKeys.auth, map["auth"]);
                 loginPrefrence.setString(cKeys.roleId, map["role_id"]);
+                loginPrefrence.setString(cKeys.roleName, map["role_name"]);
 
-                this.doLoginN(map, (LoginAuthorization log) {
-                  print(log.roleName);
+                this.doLoginN( map ,(LoginAuthorization log) {
+
                   if (log.roleName == "RSM") {
                     Navigator.pushAndRemoveUntil(
                         context, routeToRsm, (Route<dynamic> r) => false);
@@ -175,7 +179,47 @@ class _FormState extends State<Form> {
         ],
       ),
     );
+
   }
+  String checkPref;
+  String checkPrefRoleName;
+  getPrefIdUser() async {
+
+
+    LoginAuthorization log = new LoginAuthorization();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      checkPref = sharedPreferences.getString(cKeys.auth);
+      checkPrefRoleName = sharedPreferences.getString(cKeys.roleId);
+
+      if (checkPref == null && checkPrefRoleName==null) {
+        print("check null");
+      return false;
+
+      } else {
+        print("fjoifjd");
+
+
+
+        print(checkPref);
+        if (checkPrefRoleName.isNotEmpty==1) {
+          Navigator.pushAndRemoveUntil(
+              context, routeToRsm, (Route<dynamic> r) => false);
+        } else if (checkPrefRoleName == 2) {
+          Navigator.pushAndRemoveUntil(
+              context, routeToHod, (Route<dynamic> r) => false);
+        } else if (checkPrefRoleName == 3) {
+          Navigator.pushAndRemoveUntil(
+              context, routeToRetails, (Route<dynamic> r) => false);
+        } else if (checkPrefRoleName == 4) {
+          Navigator.pushAndRemoveUntil(
+              context, routeToAsm, (Route<dynamic> r) => false);
+        }
+      }
+
+    });
+  }
+
 
   final PageRouteBuilder routeToRsm = new PageRouteBuilder(
     pageBuilder: (BuildContext context, Animation<double> animation,
@@ -212,36 +256,6 @@ class _FormState extends State<Form> {
   );
 
 
-  String checkPref;
-  getPrefIdUser() async {
-    LoginAuthorization log = new LoginAuthorization();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      checkPref = sharedPreferences.getString(cKeys.auth);
-      if (checkPref == null) {
-        Navigator.pushAndRemoveUntil(
-            context, routeToLogin, (Route<dynamic> r) => false);
-
-           } else {
-
-        if (log.roleName == "RSM") {
-          Navigator.pushAndRemoveUntil(
-              context, routeToRsm, (Route<dynamic> r) => false);
-        } else if (log.roleName == "HOD") {
-          Navigator.pushAndRemoveUntil(
-              context, routeToHod, (Route<dynamic> r) => false);
-        } else if (log.roleName == "Retailer") {
-          Navigator.pushAndRemoveUntil(
-              context, routeToRetails, (Route<dynamic> r) => false);
-        } else if (log.roleName == "ASM") {
-          Navigator.pushAndRemoveUntil(
-              context, routeToAsm, (Route<dynamic> r) => false);
-        }
-
-
-      }
-    });
-  }
 
 
 
