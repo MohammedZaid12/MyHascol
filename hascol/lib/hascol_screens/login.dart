@@ -138,8 +138,8 @@ class _FormState extends State<Form> {
                 map["password"] = password.toString();
                 map["auth"] = auth.toString();
                 map["role_id"] = role_id.toString();
-//                map["role_name"] = role_name.toString();
-//                map["nic"] = nic.toString();
+                map["role_name"] = role_name.toString();
+                map["nic"] = nic.toString();
 
                 loginPrefrence.setString(cKeys.username, map["username"]);
                 loginPrefrence.setBool("isLogin", true);

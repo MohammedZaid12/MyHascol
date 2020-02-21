@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hascol/hascol_screens/login.dart';
+import 'package:hascol/hascol_screens/signup.dart';
 
 
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hascol',
-      home: Scaffold(body: Login()
+      home: Scaffold(body: Signup()
       ),
     );
   }
