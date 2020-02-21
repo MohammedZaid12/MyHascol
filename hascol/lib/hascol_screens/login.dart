@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hascol/hascol_screens/HodScreens/Asm.dart';
@@ -75,6 +77,14 @@ class _FormState extends State<Form> {
     }
   }
 
+
+  @override
+  @override
+  void initState() {
+    super.initState();
+    getPrefIdUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -128,14 +138,14 @@ class _FormState extends State<Form> {
                 map["password"] = password.toString();
                 map["auth"] = auth.toString();
                 map["role_id"] = role_id.toString();
-                map["role_name"] = role_name.toString();
-                map["nic"] = nic.toString();
+//                map["role_name"] = role_name.toString();
+//                map["nic"] = nic.toString();
 
                 loginPrefrence.setString(cKeys.username, map["username"]);
-                loginPrefrence.setBool("isLogin" ,true );
+                loginPrefrence.setBool("isLogin", true);
                 loginPrefrence.setString(cKeys.auth, map["auth"]);
-//                loginPrefrence.setString(cKeys.username, map["username"]);
-//                loginPrefrence.setString(cKeys.username, map["username"]);
+                loginPrefrence.setString(cKeys.roleId, map["role_id"]);
+
                 this.doLoginN(map, (LoginAuthorization log) {
                   print(log.roleName);
                   if (log.roleName == "RSM") {
@@ -194,4 +204,45 @@ class _FormState extends State<Form> {
       return Retails();
     },
   );
+  final PageRouteBuilder routeToLogin = new PageRouteBuilder(
+    pageBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation) {
+      return Login();
+    },
+  );
+
+
+  String checkPref;
+  getPrefIdUser() async {
+    LoginAuthorization log = new LoginAuthorization();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      checkPref = sharedPreferences.getString(cKeys.auth);
+      if (checkPref == null) {
+        Navigator.pushAndRemoveUntil(
+            context, routeToLogin, (Route<dynamic> r) => false);
+
+           } else {
+
+        if (log.roleName == "RSM") {
+          Navigator.pushAndRemoveUntil(
+              context, routeToRsm, (Route<dynamic> r) => false);
+        } else if (log.roleName == "HOD") {
+          Navigator.pushAndRemoveUntil(
+              context, routeToHod, (Route<dynamic> r) => false);
+        } else if (log.roleName == "Retailer") {
+          Navigator.pushAndRemoveUntil(
+              context, routeToRetails, (Route<dynamic> r) => false);
+        } else if (log.roleName == "ASM") {
+          Navigator.pushAndRemoveUntil(
+              context, routeToAsm, (Route<dynamic> r) => false);
+        }
+
+
+      }
+    });
+  }
+
+
+
 }
