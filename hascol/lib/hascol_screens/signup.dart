@@ -276,7 +276,7 @@ class FormState extends State<SignupForm> {
               try {
                 SignUpAuth newPost = new SignUpAuth(
                   userId: "123",
-                  Id: 0,
+                  id: 0,
                   email: emailController.text,
                   password: passwordController.text,
                   username: nameController.text,

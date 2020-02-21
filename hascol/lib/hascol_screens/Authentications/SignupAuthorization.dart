@@ -18,7 +18,7 @@ String getString(dynamic string) {
 class SignUpAuth {
 
   final String userId;
-  final int Id;
+  final int id;
   final String email;
   final String username;
   final String password;
@@ -41,7 +41,7 @@ class SignUpAuth {
       this.cnic,
       this.roleName,
       this.regionsId,
-      this.Id,
+      this.id,
       this.jdeCode});
 
   factory SignUpAuth.fromjson(Map<String, dynamic> json) {

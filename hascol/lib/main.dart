@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hascol/hascol_screens/login.dart';
-import 'package:hascol/hascol_screens/signup.dart';
 
 
 

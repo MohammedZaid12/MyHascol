@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -186,7 +185,6 @@ class _FormState extends State<Form> {
   getPrefIdUser() async {
 
 
-    LoginAuthorization log = new LoginAuthorization();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       checkPref = sharedPreferences.getString(cKeys.auth);
